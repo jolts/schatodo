@@ -17,7 +17,7 @@ def version()
   Release Date: TBA
   Last Updated: TBA
   License: GPL, http://www.gnu.org/copyleft/gpl.html
-  More information at http://github.com/jolts/todorb/\n\n")
+  More information at http://github.com/jolts/schatodo/\n\n")
   exit 1
 end
 
@@ -33,8 +33,8 @@ def help()
   exit 1
 end
 
-def die()
-  puts ARGV
+def die(args)
+  puts args
   exit 1
 end
 
