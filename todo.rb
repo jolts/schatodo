@@ -5,7 +5,7 @@
 # location.
 
 def print(args)
-  puts args
+  puts args+"\n\n"
 end
 
 def version()
@@ -17,19 +17,19 @@ def version()
   Release Date: TBA
   Last Updated: TBA
   License: GPL, http://www.gnu.org/copyleft/gpl.html
-  More information at http://github.com/jolts/schatodo/\n\n")
+  More information at http://github.com/jolts/schatodo/")
   exit 1
 end
 
 def usage()
   print("
   Usage: todo.rb [-fhpqvV] [-d todo_config] action [task_number] [task_description]
-  Try 'todo.sh -h' for more information.\n\n")
+  Try 'todo.sh -h' for more information.")
   exit 1
 end
 
 def help()
-  print("TODO.\n\n")
+  print("TODO.")
   exit 1
 end
 
