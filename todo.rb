@@ -148,8 +148,9 @@ def report()
 end
 
 ## Start program
+
 begin
   # ...
 rescue Exception => exp
-  $stderr.puts "Error: %s" % exp.message
+  $stderr.puts "Error: #{exp.message}"
 end
