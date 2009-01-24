@@ -87,7 +87,7 @@ def usage()
 
   More on the todo.txt manager at
   http://todotxt.com
-  Version 1.5.2-python
+  Version 0.1-ruby
   Copyleft 2006, Gina Trapani (ginatrapani@gmail.com)
   Copyleft 2008, Jolts (johan@sharpcode.se), Gigamo (gigamo@gmail.com)"
   
