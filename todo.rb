@@ -4,6 +4,20 @@
 # Place the .todo file in your home directory or use the -d option for a custom
 # location.
 
+# == PROCESS OPTIONS ==
+# defaults
+VERBOSE  = 0
+PLAIN    = 0
+CFG_FILE = "#{ENV["HOME"]}/.todo"
+TODO_FILE = "#{ENV["HOME"]}/todo/todo.txt"
+FORCE    = 0
+
+def add(text)
+    todo_file = File.new(TODO_FILE, 'a') 
+    todo_file.puts(text)
+    todo_file.close
+end
+
 def print(args)
   puts args+"\n\n"
 end
@@ -114,14 +128,6 @@ end
 def cleanup()
   if File.exists? TMP_FILE then IO.popen("rm #{TMP_FILE}") {} end
 end
-
-# == PROCESS OPTIONS ==
-# defaults
-VERBOSE  = 0
-PLAIN    = 0
-CFG_FILE = "#{ENV["HOME"]}/.todo"
-FORCE    = 0
-
 
 ## Testing output
 help()
