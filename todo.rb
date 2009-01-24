@@ -115,9 +115,13 @@ def write_done(done_dict)
 end
 
 def add(text)
+  if File.exists?(TODO_FILE)
+    f = File.open(TODO_FILE, "a")
+  else
     f = File.new(TODO_FILE, "a")
-    f.puts(text+"\n")
-    f.close
+  end
+  f.puts(text+"\n")
+  f.close
 end
 
 def append(item, text)
@@ -170,7 +174,11 @@ def report()
 
   string = "#{@date} #{@active.length} #{@closed.length}"
 
-  f = File.new(REPORT_FILE, "a")
+  if File.exists?(REPORT_FILE)
+    f = File.open(REPORT_FILE, "a")
+  else
+    f = File.new(REPORT_FILE, "a")
+  end
   f.puts(string+"\n")
   f.close
 end
@@ -197,14 +205,14 @@ begin
 
   if @action == "add"
     if @args # .exists? not sure.
-      add("".join(@args))
+      add("".insert(-1, @args))
     else
       puts "Usage: #{ARGV[0]} add TEXT [p:PROJECT] [@CONTEXT]"
     end
   
   elsif @action == "append"
     if @args.length > 1 and @args[0] === Integer
-      append(int(@args[0]), "".join(@args[1..-1]))
+      append(@args[0].to_i, "".insert(-1, @args[1..-1]))
     else
       puts "Usage: #{ARGV[0]} append <item_num> TEXT"
     end
@@ -214,14 +222,14 @@ begin
 
   elsif @action == "del"
     if @args.length == 1 and @args[0] === Integer
-      delete(int(@args[0]))
+      delete(@args[0].to_i)
     else
       puts "Usage: #{ARGV[0]} del <item_num>"
     end
 
   elsif @action == "do"
     if @args.length == 1 and @args[0] === Integer
-      doing(int(@args[0]))
+      doing(@args[0].to_i)
     else
       puts "Usage: #{ARGV[0]} do <item_num>"
     end
@@ -243,16 +251,16 @@ begin
 
   elsif @action == "pri"
     if @args.length == 2 and @args[0] === Integer and @args[1] === String
-      prioritize(int(@args[0]), @args[1])
+      prioritize(@args[0].to_i, @args[1])
     elsif @args.length == 1 and @args[0] === Integer
-      prioritize(int(@args[0]), "")
+      prioritize(@args[0].to_i, "")
     else
       puts "Usage: #{ARGV[0]} pri <item_num> [PRIORITY]"
     end
 
   elsif @action == "replace"
     if @args.length == 2 and @args[0] === Integer
-      replace(int(@args[0]), " ".join(@args[1..-1]))
+      replace(@args[0].to_i, " ".insert(-1, @args[1..-1]))
     else
       puts "Usage: #{ARGV[0]} replace <item_num> TEXT"
     end
