@@ -178,7 +178,55 @@ end
 ## Start program
 
 begin
-  # TODO
+  if ARGV[0] == "-h" or ARGV.length < 2
+    usage()
+    exit 1
+  else
+    if ARGV[1] == "-nc"
+      PRI_A = NONE
+      PRI_B = NONE
+      PRI_C = NONE
+      PRI_X = NONE
+      @action = ARGV[2]
+      @args = ARGV[3..-1]
+    else
+      @action = ARGV[1]
+      @args = ARGV[2..-1]
+    end
+  end
+
+  if @action == "add"
+    if @args # .exists? not sure.
+      add("".join(@args))
+    else
+      puts "Usage: #{ARGV[0]} add TEXT [p:PROJECT] [@CONTEXT]"
+    end
+  
+  elsif @action == "append"
+    if @args.length > 1 and @args[0] === Integer
+      append(int(@args[0]), "".join(@args[1..-1]))
+    else
+      puts "Usage: #{ARGV[0]} append <item_num> TEXT"
+    end
+  
+  elsif @action == "archive"
+    archive()
+
+  elsif @action == "del"
+    if @args.length == 1 and @args[0] === Integer
+      delete(int(@args[0]))
+    else
+      puts "Usage: #{ARGV[0]} del <item_num>"
+    end
+
+  elsif @action == "do"
+    # TODO
+
+
+
+
+
+  end
 rescue Exception => exp
   $stderr.puts "Error: #{exp.message}"
 end
