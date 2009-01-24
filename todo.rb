@@ -115,7 +115,7 @@ def write_done(done_dict)
 end
 
 def add(text)
-    f = File.new(TODO_FILE, 'a') 
+    f = File.new(TODO_FILE, "a")
     f.puts(text+"\n")
     f.close
 end
@@ -161,7 +161,18 @@ def remove_duplicates()
 end
 
 def report()
-  # TODO
+  archive() # FUNCTION NOT WRITTEN
+
+  @active = get_task_dict() # FUNCTION NOT WRITTEN
+  @closed = get_done_dict() # FUNCTION NOT WRITTEN
+
+  @date = (Time.now.utc + 1 * 3600).strftime("%Y-%m-%d-%T")
+
+  string = "#{@date} #{@active.length} #{@closed.length}"
+
+  f = File.new(REPORT_FILE, "a")
+  f.puts(string+"\n")
+  f.close
 end
 
 ## Start program
