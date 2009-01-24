@@ -132,7 +132,7 @@ def delete(item)
   # TODO
 end
 
-def do(item)
+def doing(item)
   # TODO
 end
 
@@ -220,12 +220,51 @@ begin
     end
 
   elsif @action == "do"
-    # TODO
+    if @args.length == 1 and @args[0] === Integer
+      doing(int(@args[0]))
+    else
+      puts "Usage: #{ARGV[0]} do <item_num>"
+    end
+    
+  elsif @action == "ls" or @action == "list"
+    if @args.length > 0
+      list(@args)
+    else
+      list()
+    end
 
+  elsif @action == "lspri" or @action == "listpri"
+    if @args.length > 0
+      x = ["\([#{@args[0]}]\)"] # No idea if this regexp is correct
+    else
+      x = ["\([A-Z]\)"] # Same as above
+    end
+    list(x)
 
+  elsif @action == "pri"
+    if @args.length == 2 and @args[0] === Integer and @args[1] === String
+      prioritize(int(@args[0]), @args[1])
+    elsif @args.length == 1 and @args[0] === Integer
+      prioritize(int(@args[0]), "")
+    else
+      puts "Usage: #{ARGV[0]} pri <item_num> [PRIORITY]"
+    end
 
+  elsif @action == "replace"
+    if @args.length == 2 and @args[0] === Integer
+      replace(int(@args[0]), " ".join(@args[1..-1]))
+    else
+      puts "Usage: #{ARGV[0]} replace <item_num> TEXT"
+    end
 
+  elsif @action == "remdup")
+    remove_duplicates()
 
+  elsif @action == "report")
+    report()
+  
+  else
+    usage()
   end
 rescue Exception => exp
   $stderr.puts "Error: #{exp.message}"
