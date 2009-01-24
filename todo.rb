@@ -97,60 +97,77 @@ end
 ## Start functions
 
 def get_task_dict()
+  count = 0
+  # TODO
 end
 
 def get_done_dict()
+  count = 0
+  # TODO
 end
 
 def write_tasks(task_dict)
+  # TODO
 end
 
 def write_done(done_dict)
+  # TODO
 end
 
 def add(text)
-    todo_file = File.new(TODO_FILE, 'a') 
-    todo_file.puts(text)
-    todo_file.close
+    f = File.new(TODO_FILE, 'a') 
+    f.puts(text+"\n")
+    f.close
 end
 
 def append(item, text)
+  # TODO
 end
 
 def archive()
+  # TODO
 end
 
 def delete(item)
+  # TODO
 end
 
 def do(item)
+  # TODO
 end
 
 def list(patterns=None) ## Not sure if this is correct
+  # TODO
 end
 
 def alpha_sort(a, b)
+  # TODO
 end
 
 def highlight_priority(matchobj)
+  # TODO
 end
 
 def prioritize(item, newpriority)
+  # TODO
 end
 
 def replace(item, text)
+  # TODO
 end
 
 def remove_duplicates()
+  # TODO
 end
 
 def report()
+  # TODO
 end
 
 ## Start program
 
 begin
-  # ...
+  # TODO
 rescue Exception => exp
   $stderr.puts "Error: #{exp.message}"
 end
