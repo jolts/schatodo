@@ -257,10 +257,10 @@ begin
       puts "Usage: #{ARGV[0]} replace <item_num> TEXT"
     end
 
-  elsif @action == "remdup")
+  elsif @action == "remdup"
     remove_duplicates()
 
-  elsif @action == "report")
+  elsif @action == "report"
     report()
   
   else
