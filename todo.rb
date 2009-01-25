@@ -97,13 +97,31 @@ end
 ## Start functions
 
 def get_task_dict()
+  # A utility method to obtain a dictionary of tasks from the TODO file
   count = 0
-  # TODO
+  tasks = Hash.new
+  f = File.open(TODO_FILE)
+  for line in f.readlines
+    if line.strip == ""
+      count = count + 1
+      tasks[count] = line.chomp
+    end
+  end
+  return tasks
 end
 
 def get_done_dict()
+  # A utility method to obtain a dictionary of tasks from the DONE file
   count = 0
-  # TODO
+  tasks = Hash.new
+  f = File.open(DONE_FILE)
+  for line in f.readlines
+    if line.strip == ""
+      count = count + 1
+      tasks[count] = line.chomp
+    end
+  end
+  return tasks
 end
 
 def write_tasks(task_dict)
