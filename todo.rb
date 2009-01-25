@@ -99,7 +99,7 @@ end
 def get_task_dict()
   # A utility method to obtain a dictionary of tasks from the TODO file
   count = 0
-  tasks = Hash.new
+  tasks = {}
   f = File.open(TODO_FILE)
   for line in f.readlines
     if line.strip == ""
@@ -113,7 +113,7 @@ end
 def get_done_dict()
   # A utility method to obtain a dictionary of tasks from the DONE file
   count = 0
-  tasks = Hash.new
+  tasks = {}
   f = File.open(DONE_FILE)
   for line in f.readlines
     if line.strip == ""
@@ -165,7 +165,14 @@ def add(text)
 end
 
 def append(item, text)
-  # TODO
+  # Append text to a given task
+  tasks = get_task_dict()
+  unless tasks.has_key?(item)
+    puts "#{item}: No such todo."
+    exit 1
+  end
+  tasks[item] = " ".insert(-1, [tasks[item], text])
+  write_tasks(tasks)
 end
 
 def archive()
