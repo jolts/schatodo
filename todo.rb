@@ -258,7 +258,7 @@ begin
     end
   
   elsif @action == "append"
-    if @args.length > 1 and @args[0] === Integer
+    if @args.length > 1 and @args[0].kind_of?(Integer)
       append(@args[0].to_i, "".insert(-1, @args[1..-1]))
     else
       puts "Usage: #{ARGV[0]} append <item_num> TEXT"
@@ -268,14 +268,14 @@ begin
     archive()
 
   elsif @action == "del"
-    if @args.length == 1 and @args[0] === Integer
+    if @args.length == 1 and @args[0].kind_of?(Integer)
       delete(@args[0].to_i)
     else
       puts "Usage: #{ARGV[0]} del <item_num>"
     end
 
   elsif @action == "do"
-    if @args.length == 1 and @args[0] === Integer
+    if @args.length == 1 and @args[0].kind_of?(Integer)
       doing(@args[0].to_i)
     else
       puts "Usage: #{ARGV[0]} do <item_num>"
@@ -297,16 +297,16 @@ begin
     list(x)
 
   elsif @action == "pri"
-    if @args.length == 2 and @args[0] === Integer and @args[1] === String
+    if @args.length == 2 and @args[0].kind_of?(Integer) and @args[1].kind_of?(String)
       prioritize(@args[0].to_i, @args[1])
-    elsif @args.length == 1 and @args[0] === Integer
+    elsif @args.length == 1 and @args[0].kind_of?(Integer)
       prioritize(@args[0].to_i, "")
     else
       puts "Usage: #{ARGV[0]} pri <item_num> [PRIORITY]"
     end
 
   elsif @action == "replace"
-    if @args.length == 2 and @args[0] === Integer
+    if @args.length == 2 and @args[0].kind_of?(Integer)
       replace(@args[0].to_i, " ".insert(-1, @args[1..-1]))
     else
       puts "Usage: #{ARGV[0]} replace <item_num> TEXT"
