@@ -125,11 +125,33 @@ def get_done_dict()
 end
 
 def write_tasks(task_dict)
-  # TODO
+  # a utility method to write a dictionary of tasks to the TODO file
+  keys = task_dict.keys
+  keys.sort
+  if File.exists?(TODO_FILE)
+    f = File.open(TODO_FILE, "w")
+  else
+    f = File.new(TODO_FILE, "w")
+  end
+  for key in keys
+    f.write(task_dict[key]+"\n")
+  end
+  f.close
 end
 
 def write_done(done_dict)
-  # TODO
+  # a utility method to write a dictionary of tasks to the DONE file
+  keys = done_dict.keys
+  keys.sort
+  if File.exists?(DONE_FILE)
+    f = File.open(DONE_FILE, "w")
+  else
+    f = File.new(DONE_FILE, "w")
+  end
+  for key in keys
+    f.write(done_dict[key]+"\n")
+  end
+  f.close
 end
 
 def add(text)
