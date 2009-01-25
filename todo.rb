@@ -180,7 +180,13 @@ def archive()
 end
 
 def delete(item)
-  # TODO
+    tasks = get_task_dict()
+    unless tasks.has_key?(item)
+        puts "#{item}: No such todo."
+        exit 1
+    end
+    tasks.delete(item)
+    write_tasks(tasks) 
 end
 
 def doing(item)
