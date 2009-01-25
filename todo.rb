@@ -184,7 +184,15 @@ def delete(item)
 end
 
 def doing(item)
-  # TODO
+  tasks = get_task_dict()
+  unless tasks.has_key?(item)
+    puts "#{item}: No such todo."
+    exit 1
+  end
+  date = (Time.now.utc + 1 * 3600).strftime("%Y-%m-%d")
+  tasks[item] = " ".insert(-1, "x", date, tasks[item])
+  write_tasks(tasks)
+  puts "#{item} marked as done."
 end
 
 def list(patterns=None) ## Not sure if this is correct
@@ -204,7 +212,14 @@ def prioritize(item, newpriority)
 end
 
 def replace(item, text)
-  # TODO
+  # Replace text to a given task
+  tasks = get_task_dict()
+  unless tasks.has_key?(item)
+    puts "#{item}: No such todo."
+    exit 1
+  end
+  tasks[item] = text
+  write_tasks(tasks)
 end
 
 def remove_duplicates()
