@@ -276,34 +276,34 @@ begin
   end
 
   if @action == "add"
-    if @args != nil
+    if @args
       add("".insert(-1, @args.join(" ")))
     else
-      puts "Usage: #{ARGV[-1]} add TEXT [p:PROJECT] [@CONTEXT]"
+      puts "Usage: todo add TEXT [p:PROJECT] [@CONTEXT]"
     end
   
   elsif @action == "append"
-    if @args.length > 1 and @args[0].kind_of?(Integer)
-      append(@args[0].to_i, "".insert(-1, @args[1..-1]))
+    if @args.length > 1 # FIXME: # FIXME: and @args[0].kind_of?(Integer)
+      append(@args[0].to_i, "".insert(-1, @args[1..-1].join(" ")))
     else
-      puts "Usage: #{ARGV[-1]} append <item_num> TEXT"
+      puts "Usage: todo append <item_num> TEXT"
     end
   
   elsif @action == "archive"
     archive()
 
   elsif @action == "del"
-    if @args.length == 1 and @args[0].kind_of?(Integer)
+    if @args.length == 1 # FIXME: # FIXME: and @args[0].kind_of?(Integer)
       delete(@args[0].to_i)
     else
-      puts "Usage: #{ARGV[-1]} del <item_num>"
+      puts "Usage: todo del <item_num>"
     end
 
   elsif @action == "do"
-    if @args.length == 1 and @args[0].kind_of?(Integer)
+    if @args.length == 1 # FIXME: and @args[0].kind_of?(Integer)
       doing(@args[0].to_i)
     else
-      puts "Usage: #{ARGV[-1]} do <item_num>"
+      puts "Usage: todo do <item_num>"
     end
     
   elsif @action == "ls" or @action == "list"
@@ -322,19 +322,19 @@ begin
     list(x)
 
   elsif @action == "pri"
-    if @args.length == 2 and @args[0].kind_of?(Integer) and @args[1].kind_of?(String)
+    if @args.length == 2 # FIXME: and @args[0].kind_of?(Integer) and @args[1].kind_of?(String)
       prioritize(@args[0].to_i, @args[1])
-    elsif @args.length == 1 and @args[0].kind_of?(Integer)
+    elsif @args.length == 1 # FIXME: and @args[0].kind_of?(Integer)
       prioritize(@args[0].to_i, "")
     else
-      puts "Usage: #{ARGV[-1]} pri <item_num> [PRIORITY]"
+      puts "Usage: todo pri <item_num> [PRIORITY]"
     end
 
   elsif @action == "replace"
-    if @args.length == 2 and @args[0].kind_of?(Integer)
+    if @args.length == 2 # FIXME: and @args[0].kind_of?(Integer)
       replace(@args[0].to_i, " ".insert(-1, @args[1..-1]))
     else
-      puts "Usage: #{ARGV[-1]} replace <item_num> TEXT"
+      puts "Usage: todo replace <item_num> TEXT"
     end
 
   elsif @action == "remdup"

@@ -1,0 +1,9 @@
+=== Bugs/FIXME's
+
+* Add prefixed number to each added todo
+
+* Fix append() function
+
+* Fix integer/string detection
+
+* More to come.
