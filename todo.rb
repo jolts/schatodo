@@ -229,14 +229,14 @@ def replace(item, text)
 end
 
 def remove_duplicates()
-  # TODO
+  break
 end
 
 def report()
   archive() # FUNCTION NOT WRITTEN
 
-  @active = get_task_dict() # FUNCTION NOT WRITTEN
-  @closed = get_done_dict() # FUNCTION NOT WRITTEN
+  @active = get_task_dict()
+  @closed = get_done_dict()
 
   @date = (Time.now.utc + 1 * 3600).strftime("%Y-%m-%d-%T")
 
@@ -263,16 +263,16 @@ begin
       PRI_B = NONE
       PRI_C = NONE
       PRI_X = NONE
-      @action = ARGV[2]
-      @args = ARGV[3..-1]
-    else
       @action = ARGV[1]
       @args = ARGV[2..-1]
+    else
+      @action = ARGV[0]
+      @args = ARGV[1..-1]
     end
   end
 
   if @action == "add"
-    if @args # .exists? not sure.
+    if @args != nil # .exists? not sure.
       add("".insert(-1, @args))
     else
       puts "Usage: #{ARGV[0]} add TEXT [p:PROJECT] [@CONTEXT]"
@@ -343,5 +343,6 @@ begin
     usage()
   end
 rescue Exception => exp
+  # DEBUGGING
   $stderr.puts "Error: #{exp.message}"
 end
