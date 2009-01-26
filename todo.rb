@@ -137,7 +137,7 @@ def write_tasks(task_dict)
     f = File.new(TODO_FILE, "w")
   end
   for key in keys
-    f.write(task_dict[key]+"\n")
+    f.write("#{task_dict[key]}\n")
   end
   f.close
 end
@@ -152,7 +152,7 @@ def write_done(done_dict)
     f = File.new(DONE_FILE, "w")
   end
   for key in keys
-    f.write(done_dict[key]+"\n")
+    f.write("#{done_dict[key]}\n")
   end
   f.close
 end
@@ -163,9 +163,12 @@ def add(text)
   else
     f = File.new(TODO_FILE, "a")
   end
-  f.puts(text+"\n")
+  line_count = 1
+  for line in f.readlines
+    line_count += 1
+  end
+  f.write("#{line_count}: #{text}\n")
   f.close
-  # TODO: make this function prefix a number to each item added.
 end
 
 def append(item, text)
