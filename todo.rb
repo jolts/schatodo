@@ -38,8 +38,9 @@ PRI_B = GREEN  # color for B priority
 PRI_C = LIGHT_BLUE   # color for B priority
 PRI_X = WHITE   # color for rest of them
 
-# DEBUGGING
-VERBOSE     = true
+# === OTHER VARIABLES ===
+VERBOSE      = true
+VERSION      = "0.2"
 
 def usage()
   text = "  Usage: #{ARGV[0]} [options] [ACTION] [PARAM...]
@@ -90,7 +91,7 @@ def usage()
 
   More on the todo.txt manager at
   http://todotxt.com
-  Version 0.1-ruby
+  Version #{VERSION}-ruby
   Copyleft 2006, Gina Trapani (ginatrapani@gmail.com)
   Copyleft 2008, Jolts (johan@sharpcode.se), Gigamo (gigamo@gmail.com)"
   
