@@ -353,6 +353,6 @@ begin
 rescue Exception => exp
   # DEBUGGING
   if VERBOSE
-    $stderr.puts "\n\n---| Debug message |---\n---> #{exp.message}\n\n"
+    $stderr.puts "\n\n---| #{YELLOW}Debug message #{DEFAULT}|---\n---> #{RED}#{exp.message}#{DEFAULT}\n\n"
   end
 end
