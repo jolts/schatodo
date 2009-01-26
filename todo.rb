@@ -276,7 +276,7 @@ begin
 
   if @action == "add"
     if @args != nil # .exists? not sure.
-      add("".insert(-1, @args))
+      add("".insert(-1, @args.join(" ")))
     else
       puts "Usage: #{ARGV[-1]} add TEXT [p:PROJECT] [@CONTEXT]"
     end
