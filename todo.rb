@@ -275,14 +275,14 @@ begin
     if @args != nil # .exists? not sure.
       add("".insert(-1, @args))
     else
-      puts "Usage: #{ARGV[0]} add TEXT [p:PROJECT] [@CONTEXT]"
+      puts "Usage: #{ARGV[-1]} add TEXT [p:PROJECT] [@CONTEXT]"
     end
   
   elsif @action == "append"
     if @args.length > 1 and @args[0].kind_of?(Integer)
       append(@args[0].to_i, "".insert(-1, @args[1..-1]))
     else
-      puts "Usage: #{ARGV[0]} append <item_num> TEXT"
+      puts "Usage: #{ARGV[-1]} append <item_num> TEXT"
     end
   
   elsif @action == "archive"
@@ -292,14 +292,14 @@ begin
     if @args.length == 1 and @args[0].kind_of?(Integer)
       delete(@args[0].to_i)
     else
-      puts "Usage: #{ARGV[0]} del <item_num>"
+      puts "Usage: #{ARGV[-1]} del <item_num>"
     end
 
   elsif @action == "do"
     if @args.length == 1 and @args[0].kind_of?(Integer)
       doing(@args[0].to_i)
     else
-      puts "Usage: #{ARGV[0]} do <item_num>"
+      puts "Usage: #{ARGV[-1]} do <item_num>"
     end
     
   elsif @action == "ls" or @action == "list"
@@ -323,14 +323,14 @@ begin
     elsif @args.length == 1 and @args[0].kind_of?(Integer)
       prioritize(@args[0].to_i, "")
     else
-      puts "Usage: #{ARGV[0]} pri <item_num> [PRIORITY]"
+      puts "Usage: #{ARGV[-1]} pri <item_num> [PRIORITY]"
     end
 
   elsif @action == "replace"
     if @args.length == 2 and @args[0].kind_of?(Integer)
       replace(@args[0].to_i, " ".insert(-1, @args[1..-1]))
     else
-      puts "Usage: #{ARGV[0]} replace <item_num> TEXT"
+      puts "Usage: #{ARGV[-1]} replace <item_num> TEXT"
     end
 
   elsif @action == "remdup"
