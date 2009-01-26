@@ -287,7 +287,7 @@ begin
   
   elsif @action == "append"
     if @args.length > 1 # FIXME: and @args[0].kind_of?(Integer)
-      append(@args[0].to_i, "".insert(-1, @args[1..-1].join(" ")))
+      append(@args[0].join().to_i, "".insert(-1, @args[1..-1].join(" ")))
     else
       puts "Usage: todo append <item_num> TEXT"
     end
@@ -297,14 +297,14 @@ begin
 
   elsif @action == "del"
     if @args.length == 1 # FIXME: and @args[0].kind_of?(Integer)
-      delete(@args[0].to_i)
+      delete(@args[0].join().to_i)
     else
       puts "Usage: todo del <item_num>"
     end
 
   elsif @action == "do"
     if @args.length == 1 # FIXME: and @args[0].kind_of?(Integer)
-      doing(@args[0].to_i)
+      doing(@args[0].join().to_i)
     else
       puts "Usage: todo do <item_num>"
     end
@@ -326,16 +326,16 @@ begin
 
   elsif @action == "pri"
     if @args.length == 2 # FIXME: and @args[0].kind_of?(Integer) and @args[1].kind_of?(String)
-      prioritize(@args[0].to_i, @args[1])
+      prioritize(@args[0].join().to_i, @args[1])
     elsif @args.length == 1 # FIXME: and @args[0].kind_of?(Integer)
-      prioritize(@args[0].to_i, "")
+      prioritize(@args[0].join().to_i, "")
     else
       puts "Usage: todo pri <item_num> [PRIORITY]"
     end
 
   elsif @action == "replace"
     if @args.length == 2 # FIXME: and @args[0].kind_of?(Integer)
-      replace(@args[0].to_i, " ".insert(-1, @args[1..-1]))
+      replace(@args[0].join().to_i, " ".insert(-1, @args[1..-1]))
     else
       puts "Usage: todo replace <item_num> TEXT"
     end
