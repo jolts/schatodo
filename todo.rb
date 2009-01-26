@@ -38,6 +38,9 @@ PRI_B = GREEN  # color for B priority
 PRI_C = LIGHT_BLUE   # color for B priority
 PRI_X = WHITE   # color for rest of them
 
+# DEBUGGING
+VERBOSE     = true
+
 def usage()
   text = "  Usage: #{ARGV[0]} [options] [ACTION] [PARAM...]
 
@@ -344,5 +347,7 @@ begin
   end
 rescue Exception => exp
   # DEBUGGING
-  $stderr.puts "Error: #{exp.message}"
+  if VERBOSE
+    $stderr.puts "\n\n---| Debug message |---\n---> #{exp.message}\n\n"
+  end
 end
