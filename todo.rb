@@ -165,6 +165,7 @@ def add(text)
   end
   f.puts(text+"\n")
   f.close
+  # TODO: make this function prefix a number to each item added.
 end
 
 def append(item, text)
@@ -275,7 +276,7 @@ begin
   end
 
   if @action == "add"
-    if @args != nil # .exists? not sure.
+    if @args != nil
       add("".insert(-1, @args.join(" ")))
     else
       puts "Usage: #{ARGV[-1]} add TEXT [p:PROJECT] [@CONTEXT]"
