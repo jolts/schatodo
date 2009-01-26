@@ -159,9 +159,9 @@ end
 
 def add(text)
   if File.exists?(TODO_FILE)
-    f = File.open(TODO_FILE, "a")
+    f = File.open(TODO_FILE, "a+")
   else
-    f = File.new(TODO_FILE, "a")
+    f = File.new(TODO_FILE, "a+")
   end
   line_count = 1
   for line in f.readlines
