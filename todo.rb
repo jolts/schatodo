@@ -283,7 +283,7 @@ begin
     end
   
   elsif @action == "append"
-    if @args.length > 1 # FIXME: # FIXME: and @args[0].kind_of?(Integer)
+    if @args.length > 1 # FIXME: and @args[0].kind_of?(Integer)
       append(@args[0].to_i, "".insert(-1, @args[1..-1].join(" ")))
     else
       puts "Usage: todo append <item_num> TEXT"
@@ -293,7 +293,7 @@ begin
     archive()
 
   elsif @action == "del"
-    if @args.length == 1 # FIXME: # FIXME: and @args[0].kind_of?(Integer)
+    if @args.length == 1 # FIXME: and @args[0].kind_of?(Integer)
       delete(@args[0].to_i)
     else
       puts "Usage: todo del <item_num>"
