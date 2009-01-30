@@ -1,7 +1,10 @@
-=== Bugs/FIXME's ===
+== Bugs/FIXME's
 
 * Fix append() function
 
 * Fix integer/string detection
+    * Might be fixed now, needs testing.
+
+* Fix key retrieval
 
 * More to come.
