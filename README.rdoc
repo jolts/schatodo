@@ -2,8 +2,7 @@
 
 * Fix append() function
 
-* Fix integer/string detection
-    * Might be fixed now, needs testing.
+* Fix integer/string detection (might be fixed now, needs testing)
 
 * Fix key retrieval
 
