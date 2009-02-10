@@ -1,360 +1,153 @@
 #!/usr/bin/env ruby
+# Rudo.rb todo manager.
+# Author: Gigamo <gigamo@gmail.com>, Jolts <johan@sharpcode.se>
+# Inspired by Todo.txt (http://www.todotxt.com)
+# which was written by Gina Trapani.
 
-# TODO.TXT Manager
-# Author:     Jolts <johan@sharpcode.se>, Gigamo <gigamo@gmail.com>
-# Concept by: Gina Trapani >ginatrapani@gmail.com>
-# License:    GPL, http://www.gnu.org/copyleft/gpl.html
-# Version:    0.1-rb
-# More info:  http://todotxt.com, http://github.com/jolts/schatodo
+$todo_dir = "#{ENV["HOME"]}/.todotxt"
+$todo_file = "#{$todo_dir}/todo.txt"
 
-TODO_DIR     = "#{ENV["HOME"]}/.todotxt" # THIS IS MY DIRECTORY JOLTS I DONT KNOW YOURS
-TODO_FILE    = "#{TODO_DIR}/todo.txt"
-DONE_FILE    = "#{TODO_DIR}/done.txt"
-REPORT_FILE  = "#{TODO_DIR}/report.txt"
-TMP_FILE     = "#{TODO_DIR}/todo.tmp"
+def usage
+  "Rudo.rb by Gigamo <gigamo@gmail.com>
+  Usage: rudo.rb <ACTION> <ARGUMENTS>
 
-NONE         = ""
-BLACK        = "\033[0;30m"
-RED          = "\033[0;31m"
-GREEN        = "\033[0;32m"
-BROWN        = "\033[0;33m"
-BLUE         = "\033[0;34m"
-PURPLE       = "\033[0;35m"
-CYAN         = "\033[0;36m"
-LIGHT_GREY   = "\033[0;37m"
-DARK_GREY    = "\033[1;30m"
-LIGHT_RED    = "\033[1;31m"
-LIGHT_GREEN  = "\033[1;32m"
-YELLOW       = "\033[1;33m"
-LIGHT_BLUE   = "\033[1;34m"
-LIGHT_PURPLE = "\033[1;35m"
-LIGHT_CYAN   = "\033[1;36m"
-WHITE        = "\033[1;37m"
-DEFAULT      = "\033[0m"
+    For example:
 
-# === PRIORITY COLORS ===
-PRI_A = YELLOW   # color for A priority
-PRI_B = GREEN  # color for B priority
-PRI_C = LIGHT_BLUE   # color for B priority
-PRI_X = WHITE   # color for rest of them
-
-# === OTHER VARIABLES ===
-VERBOSE      = true
-VERSION      = "0.2"
-
-def usage()
-  text = "  Usage: #{ARGV[0]} [options] [ACTION] [PARAM...]
-
-  Actions:
-    add \"THING I NEED TO DO p:project @context\"
-      Adds TODO ITEM to your todo.txt.
-      Project and context notation optional.
-      Quotes optional.
-  
-    append NUMBER \"TEXT TO APPEND\"
-      Adds TEXT TO APPEND to the end of the todo on line NUMBER.
-      Quotes optional.
-  
-    archive
-      Moves done items from todo.txt to done.txt.
-  
-    del NUMBER
-      Deletes the item on line NUMBER in todo.txt.
-  
-    do NUMBER
-      Marks item on line NUMBER as done in todo.txt.
-  
-    ls [TERM] [[TERM]...]
-      Displays all todo's that contain TERM(s) sorted by priority with line
-      numbers.  If no TERM specified, lists entire todo.txt.
-  
-    lspri [PRIORITY]
-      Displays all items prioritized PRIORITY.
-      If no PRIORITY specified, lists all prioritized items.
-  
-    pri NUMBER PRIORITY
-      Adds PRIORITY to todo on line NUMBER.  If the item is already
-      prioritized, replaces current priority with new PRIORITY.
-      PRIORITY must be an uppercase letter between A and Z.
-  
-    replace NUMBER \"UPDATED TODO\"
-      Replaces todo on line NUMBER with UPDATED TODO.
-  
-    remdup
-      Removes exact duplicate lines from todo.txt.
-  
-    report
-      Adds the number of open todo's and closed done's to report.txt.
-  
-  Options:
-    -nc : Turns off colors
-
-  More on the todo.txt manager at
-  http://todotxt.com
-  Version #{VERSION}-ruby
-  Copyleft 2006, Gina Trapani (ginatrapani@gmail.com)
-  Copyleft 2008, Jolts (johan@sharpcode.se), Gigamo (gigamo@gmail.com)"
-  
-  puts text
+      * rudo.rb add My new todo item.
+      * rudo.rb append <tasknumber> My appended text
+      * rudo.rb del <tasknumber>
+      * rudo.rb done <tasknumber
+      * rudo.rb replace <tasknumber> My replacing text
+      * rudo.rb list"
 end
 
-## Start functions
-
-def get_task_dict()
-  # A utility method to obtain a dictionary of tasks from the TODO file
+def get_tasks
+  # Returns a hash of all tasks found in $todo_file
   count = 0
-  tasks = {}
-  f = File.open(TODO_FILE)
-  for line in f.readlines
-    if line.strip == ""
-      count = count + 1
-      tasks[count] = line.chomp
-    end
-  end
-  return tasks
-end
-
-def get_done_dict()
-  # A utility method to obtain a dictionary of tasks from the DONE file
-  count = 0
-  tasks = {}
-  f = File.open(DONE_FILE)
-  for line in f.readlines
-    if line.strip == ""
-      count = count + 1
-      tasks[count] = line.chomp
-    end
-  end
-  return tasks
+  tasks = Hash.new # tasks = {}
+  File.open($todo_file).each_line { |line|
+    if line.strip == "": next end
+    count += 1
+    tasks[count] = line.chomp
+  }
+  tasks
 end
 
 def write_tasks(task_dict)
-  # a utility method to write a dictionary of tasks to the TODO file
+  # Writes tasks to $todo_file
   keys = task_dict.keys
   keys.sort
-  if File.exists?(TODO_FILE)
-    f = File.open(TODO_FILE, "w")
-  else
-    f = File.new(TODO_FILE, "w")
-  end
-  for key in keys
-    f.write("#{task_dict[key]}\n")
-  end
-  f.close
-end
-
-def write_done(done_dict)
-  # a utility method to write a dictionary of tasks to the DONE file
-  keys = done_dict.keys
-  keys.sort
-  if File.exists?(DONE_FILE)
-    f = File.open(DONE_FILE, "w")
-  else
-    f = File.new(DONE_FILE, "w")
-  end
-  for key in keys
-    f.write("#{done_dict[key]}\n")
-  end
+  f = File.open($todo_file, "w")
+  keys.each { |key| f.write(task_dict[key]+"\r\n") }
   f.close
 end
 
 def add(text)
-  if File.exists?(TODO_FILE)
-    f = File.open(TODO_FILE, "a+")
-  else
-    f = File.new(TODO_FILE, "a+")
-  end
-  # LINECOUNT NOT NECESSARY TO BE ADDED HERE, LIST FUNCTION SHOULD SHOW IT INSTEAD
-  #line_count = 1
-  #for line in f.readlines
-  #  line_count += 1
-  #end
-  #f.write("#{line_count}: #{text}\n")
-  f.write("#{text}\n"
+  # Adds a new task to $todo_file
+  f = File.open($todo_file, "a")
+  f.write(text+"\r\n")
   f.close
 end
 
-def append(item, text)
-  # Append text to a given task
-  tasks = get_task_dict()
+def append(item, text="")
+  # Appends text to a given task in $todo_file
+  tasks = get_tasks
   unless tasks.has_key?(item)
     puts "#{item}: No such todo."
-    exit 1
+    exit
   end
-  tasks[item] = " ".insert(-1, [tasks[item], text])
+  tasks[item] = "" << [tasks[item], text].join(" ")
   write_tasks(tasks)
-end
-
-def archive()
-  # TODO
 end
 
 def delete(item)
-  tasks = get_task_dict()
+  # Deletes task by the given tasknumber in $todo_file
+  tasks = get_tasks
   unless tasks.has_key?(item)
     puts "#{item}: No such todo."
-    exit 1
+    exit
   end
   tasks.delete(item)
-  write_tasks(tasks) 
+  write_tasks(tasks)
 end
 
-def doing(item)
-  tasks = get_task_dict()
+def done(item)
+  # Marks the given tasknumber as done in $todo_file
+  tasks = get_tasks
   unless tasks.has_key?(item)
     puts "#{item}: No such todo."
-    exit 1
+    exit
   end
-  date = (Time.now.utc + 1 * 3600).strftime("%Y-%m-%d")
-  tasks[item] = " ".insert(-1, "x", date, tasks[item])
+  date = Time.now.strftime("%d/%m/%Y")
+  tasks[item] = "" << ["x", date, tasks[item]].join(" ")
   write_tasks(tasks)
-  puts "#{item} marked as done."
+  puts "Tasknumber %d was marked as done." % item
 end
 
-def list(patterns=None) ## Not sure if this is correct
-  # TODO
-end
-
-def alpha_sort(a, b)
-  # TODO
-end
-
-def highlight_priority(matchobj)
-  # TODO
-end
-
-def prioritize(item, newpriority)
-  # TODO
+def list(patterns=nil)
+  # Prints a list of all current tasks and their tasknumbers in $todo_file
+  items = Array.new # items = []
+  tasks = get_tasks
+  if patterns
+    tasks.each { |key, value|
+      match = true
+      patterns.each { |pattern| unless /#{pattern}/ix.match(value): match = false end }
+      if match: items << "  #{key}: #{value}" end
+    }
+  else
+    tasks.each { |key, value| items << "  #{key}: #{value}" }
+  end
+  items.sort
+  items.each { |item| puts item }
 end
 
 def replace(item, text)
-  # Replace text to a given task
-  tasks = get_task_dict()
+  # Replaces the text in a given task in $todo_file
+  tasks = get_tasks
   unless tasks.has_key?(item)
     puts "#{item}: No such todo."
-    exit 1
+    exit
   end
   tasks[item] = text
   write_tasks(tasks)
 end
 
-def remove_duplicates()
-  break
-end
 
-def report()
-  archive() # FUNCTION NOT WRITTEN
-
-  @active = get_task_dict()
-  @closed = get_done_dict()
-
-  @date = (Time.now.utc + 1 * 3600).strftime("%Y-%m-%d-%T")
-
-  string = "#{@date} #{@active.length} #{@closed.length}"
-
-  if File.exists?(REPORT_FILE)
-    f = File.open(REPORT_FILE, "a")
-  else
-    f = File.new(REPORT_FILE, "a")
-  end
-  f.puts(string+"\n")
-  f.close
-end
-
-## Start program
 
 begin
-  if ARGV[0] == "-h" or ARGV.length < 2
-    usage()
-    exit 1
+  if ARGV.empty?
+    puts usage
+    exit
   else
-    if ARGV[1] == "-nc"
-      PRI_A = NONE
-      PRI_B = NONE
-      PRI_C = NONE
-      PRI_X = NONE
-      @action = ARGV[1]
-      @args = ARGV[2..-1]
-    else
-      @action = ARGV[0]
-      @args = ARGV[1..-1]
-    end
+    @action = ARGV[0]
+    @args = ARGV[1..-1]
   end
 
   if @action == "add"
     if @args
-      add("".insert(-1, @args.join(" ")))
-    else
-      puts "Usage: todo add TEXT [p:PROJECT] [@CONTEXT]"
+      add("" << @args.join(" "))
     end
-  
   elsif @action == "append"
-    if @args.length > 1 and @args[0].join("").kind_of?(Integer)
-      append(@args[0].join().to_i, "".insert(-1, @args[1..-1].join(" ")))
-    else
-      puts "Usage: todo append <item_num> TEXT"
+    if @args.length > 1
+      append(@args[0].to_i, "" << @args[1..-1].join(" "))
     end
-  
-  elsif @action == "archive"
-    archive()
-
   elsif @action == "del"
-    if @args.length == 1 and @args[0].join("").kind_of?(Integer)
-      delete(@args[0].join().to_i)
-    else
-      puts "Usage: todo del <item_num>"
+    if @args.length == 1
+      delete(@args[0].to_i)
     end
-
-  elsif @action == "do"
-    if @args.length == 1 and @args[0].join("").kind_of?(Integer)
-      doing(@args[0].join().to_i)
-    else
-      puts "Usage: todo do <item_num>"
-    end
-    
-  elsif @action == "ls" or @action == "list"
+  elsif @action == "list"
     if @args.length > 0
-      list(@args)
+      list(@args.join(" "))
     else
-      list()
+      list
     end
-
-  elsif @action == "lspri" or @action == "listpri"
-    if @args.length > 0
-      x = ["\([#{@args[0]}]\)"] # No idea if this regexp is correct
-    else
-      x = ["\([A-Z]\)"] # Same as above
-    end
-    list(x)
-
-  elsif @action == "pri"
-    if @args.length == 2 and @args[0].join("").kind_of?(Integer) and @args[1].join("").kind_of?(String)
-      prioritize(@args[0].join().to_i, @args[1])
-    elsif @args.length == 1 and @args[0].join("").kind_of?(Integer)
-      prioritize(@args[0].join().to_i, "")
-    else
-      puts "Usage: todo pri <item_num> [PRIORITY]"
-    end
-
   elsif @action == "replace"
-    if @args.length == 2 and @args[0].join("").kind_of?(Integer)
-      replace(@args[0].join().to_i, " ".insert(-1, @args[1..-1]))
-    else
-      puts "Usage: todo replace <item_num> TEXT"
+    if @args.length > 1
+      replace(@args[0].to_i, "" << @args[1..-1].join(" "))
     end
-
-  elsif @action == "remdup"
-    remove_duplicates()
-
-  elsif @action == "report"
-    report()
-  
-  else
-    usage()
-  end
-rescue Exception => exp
-  # DEBUGGING
-  if VERBOSE
-    $stderr.puts "\n\n---| #{YELLOW}Debug message #{DEFAULT}|---\n---> #{RED}#{exp.message}#{DEFAULT}\n\n"
+  elsif @action == "done"
+    if @args.length == 1
+      done(@args[0].to_i)
+    end
   end
 end
