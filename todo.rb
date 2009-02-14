@@ -115,9 +115,9 @@ module Rudo
     when 'add'
       Rudo.add(@args.join(' ')) unless @args.nil?
     when 'append'
-      Rudo.append(@args.first.to_i, @args[1..-1].join(' ')) unless @args.length > 1
+      Rudo.append(@args.first.to_i, @args[1..-1].join(' ')) unless @args.length < 1
     when 'replace'
-      Rudo.replace(@args.first.to_i, @args[1..-1].join(' ')) unless @args.length > 1
+      Rudo.replace(@args.first.to_i, @args[1..-1].join(' ')) unless @args.length < 1
     when 'del'
       Rudo.delete(@args.first.to_i) if @args.length == 1
     when 'done'
